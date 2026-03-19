@@ -1,10 +1,7 @@
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 
-// https://vite.dev/config/
 export default defineConfig({
+  base: '/My-first-project-react/',
   plugins: [react()],
-  build: {
-    sourcemap: true,
-  },
 });
