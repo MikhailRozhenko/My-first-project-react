@@ -1,9 +1,5 @@
 // src/components/App.tsx
 
-import catsData from '../types/cats.json';
-import css from './App.module.css';
-import CatList from './СatList';
-
 // export default function App() {
 //   return (
 //     <>
@@ -84,17 +80,119 @@ import CatList from './СatList';
 //     "available": true
 //   }
 
+// export default function App() {
+//   const availableCats = catsData.filter(cat => cat.available);
+//   const takenCats = catsData.filter(cat => !cat.available);
+//   return (
+//     <>
+//       <div className={css.container}>
+//         <h2>Available cats</h2>
+//         <CatList cats={availableCats} />
+//         <h2>Taken Cats</h2>
+//         <CatList cats={takenCats} />
+//       </div>
+//     </>
+//   );
+// }
+
+// src/components/App.tsx
+
+// export default function App() {
+//   const handleClick = () => {
+//     console.log("I'm a button!");
+//   };
+
+//   return <button onClick={handleClick}>Click me!</button>;
+// }
+
+// export default function App() {
+//   return <button onClick={() => console.log('Clicked!')}>Click me!</button>;
+// }
+
+// export default function App() {
+//   const handleClick = event => {
+//     console.log(event); // Об'єкт події
+//   };
+
+//   return (
+//     <>
+//       <button onClick={handleClick}>First button</button>
+//       <button onClick={event => console.log(event)}>Second button</button>
+//     </>
+//   );
+// }
+
+// export default function App() {
+//   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+//     console.log('Clicked', event);
+//     console.log('clicked', event.target);
+//   };
+
+//   return <button onClick={handleClick}>Click me!</button>;
+// }
+
+// Пояснення:
+
+// event – це об'єкт події;
+// React.MouseEvent – тип події;
+// HTMLButtonElement – тип елемента, до якого прикріплена подія (<button>);
+
+// 1. Імпортуємо функцію useState
+
+// interface InventoryProps {
+//   BMW: number;
+//   Audi: number;
+//   Mercedes: number;
+//   Volkswagen: number;
+//   Skoda: number;
+//   Lexus: number;
+// }
+
+// export default function App() {
+//   const [Inventory, setInventory] = useState<InventoryProps>({
+//     BMW: 0,
+//     Audi: 0,
+//     Mercedes: 0,
+//     Volkswagen: 0,
+//     Skoda: 0,
+//     Lexus: 0,
+//   });
+
+//   const clickHanter = (type: keyof InventoryProps) => {
+//     setInventory({
+//       ...Inventory,
+//       [type]: Inventory[type] + 1,
+//     });
+//   };
+
+//   return (
+//     <div>
+//       <h1>Inventory Tracker</h1>
+//       <button onClick={() => clickHanter('BMW')}>BMW{Inventory.BMW}</button>
+//       <button onClick={() => clickHanter('Audi')}>Audi {Inventory.Audi}</button>
+//       <button onClick={() => clickHanter('Mercedes')}>
+//         Mercedes{Inventory.Mercedes}
+//       </button>
+//       <button onClick={() => clickHanter('Volkswagen')}>
+//         Volkswagen{Inventory.Volkswagen}
+//       </button>
+//       <button onClick={() => clickHanter('Skoda')}>
+//         Skoda{Inventory.Skoda}
+//       </button>
+//       <button onClick={() => clickHanter('Lexus')}>
+//         Lexus{Inventory.Lexus}
+//       </button>
+//     </div>
+//   );
+// }
+
+import articles from '../articles.json';
+import Articles from './Articles';
+
 export default function App() {
-  const availableCats = catsData.filter(cat => cat.available);
-  const takenCats = catsData.filter(cat => !cat.available);
   return (
-    <>
-      <div className={css.container}>
-        <h2>Available cats</h2>
-        <CatList cats={availableCats} />
-        <h2>Taken Cats</h2>
-        <CatList cats={takenCats} />
-      </div>
-    </>
+    <div>
+      <Articles items={articles} />
+    </div>
   );
 }

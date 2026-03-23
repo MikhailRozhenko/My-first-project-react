@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "title": "Understanding useState",
+    "body": "useState is a React Hook that allows functional components to have state. It returns a state value and a function to update it. When the state changes, React re-renders the component."
+  },
+  {
+    "id": 2,
+    "title": "What is JSX",
+    "body": "JSX is a syntax extension for JavaScript that looks similar to HTML. It is used in React to describe what the UI should look like. JSX gets compiled into regular JavaScript."
+  },
+  {
+    "id": 3,
+    "title": "Components in React",
+    "body": "Components are the building blocks of a React application. They can be functional or class-based. Each component can manage its own state and receive data through props."
+  },
+  {
+    "id": 4,
+    "title": "Handling Events",
+    "body": "React allows you to handle user interactions like clicks, inputs, and form submissions using event handlers. These handlers are usually functions passed to elements like onClick or onChange."
+  },
+  {
+    "id": 5,
+    "title": "Conditional Rendering",
+    "body": "Conditional rendering in React allows you to display different UI elements based on certain conditions. You can use if statements, ternary operators, or logical AND operators."
+  }
+]
