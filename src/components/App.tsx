@@ -1,5 +1,8 @@
 // src/components/App.tsx
 
+import { useEffect, useState } from 'react';
+import Sidebar from './Sidebar';
+
 // export default function App() {
 //   return (
 //     <>
@@ -186,13 +189,115 @@
 //   );
 // }
 
-import articles from '../articles.json';
-import Articles from './Articles';
+// // src/components/App.tsx
+// import { ClipLoader } from 'react-spinners';
+
+// import { fetchArticles } from '../services/articleService';
+// import type { Article } from '../types/articles';
+// import Articles from './Articles';
+// import OrderForms from './OrderForm';
+
+// export default function App() {
+//   const [articles, setArticles] = useState<Article[]>([]);
+//   const [isLoading, setIsLoading] = useState(false);
+
+//   const [isError, setIsError] = useState(false);
+//   const handleSearch = async (topic: string) => {
+//     try {
+//       setIsLoading(true);
+//       setIsError(false);
+//       const data = await fetchArticles(topic);
+
+//       setIsLoading(false);
+
+//       s  } catch {
+//     etArticles(data);
+//     setIsError(true);
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   return (
+//     <>
+//       <SearchForm onSubmit={handleSearch} />
+
+//       {isLoading && <ClipLoader size={40}></ClipLoader>}
+//       {isError && <p>Whoops, something went wrong! Please try again!</p>}
+//       <Articles items={articles} />
+//       <OrderForms />
+//     </>
+//   );
+
+// export default function App() {
+//   const [person, setPerson] = useState(null);
+
+//   useEffect(() => {
+//     console.log('Effect ran!');
+//     axios
+//       .get('https://swapi.info/api/people/1')
+//       .then(response => setPerson(response.data));
+//   }, []);
+
+//   console.log('App rendred!');
+
+//   return (
+//     <>
+//       <pre>{JSON.stringify(person, null, 2)}</pre>
+//     </>
+//   );
+// }
+
+// src/components/App.tsx
 
 export default function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    const savedState = localStorage.getItem('sidebar-state');
+
+    try {
+      return savedState ? JSON.parse(savedState) : false;
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('sidebar-state', JSON.stringify(isSidebarOpen));
+  }, [isSidebarOpen]);
   return (
-    <div>
-      <Articles items={articles} />
-    </div>
+    <>
+      <button
+        onClick={() => {
+          setIsSidebarOpen(true);
+        }}
+      >
+        Open Sidebar
+      </button>
+      {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+    </>
   );
 }
+
+//   const [person, setPerson] = useState(null);
+//   const [count, setCount] = useState(1);
+
+//   useEffect(() => {
+//     async function getPerson() {
+//       const response = await axios.get(
+//         `https://swapi.info/api/people/${count}`,
+//       );
+//       setPerson(response.data);
+//     }
+
+//     getPerson();
+//   }, [count]);
+
+//   useEffect(() => {
+//     console.log('effect', count);
+//   }, [count]);
+
+//   return (
+//     <>
+//       {/* <h1>{person && person.name}</h1> */}
+//       {/* <button onClick={() => setCount(count + 1)}>{count}</button> */}
+// 	  </>
