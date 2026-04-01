@@ -47,26 +47,21 @@
 //   );
 // }
 
-import type { Article } from '../types/articles';
-
-interface ArticlesProps {
+import { type Article } from '../types/articles';
+interface ArticleListProps {
   items: Article[];
 }
 
-export default function Articles({ items }: ArticlesProps) {
+export default function ArticleList({ items }: ArticleListProps) {
   return (
-    <>
-      {items.length > 0 && (
-        <ul>
-          {items.map(({ objectID, url, title }) => (
-            <li key={objectID}>
-              <a href={url} target="_blank">
-                {title}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </>
+    <ul>
+      {items.map(item => (
+        <li key={item.objectID}>
+          <a href={item.url} target="_blank">
+            {item.title}
+          </a>
+        </li>
+      ))}
+    </ul>
   );
 }

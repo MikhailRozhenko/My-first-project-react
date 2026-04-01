@@ -1,9 +1,14 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+// main.tsx
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import ReactDOM from 'react-dom/client';
 import App from './components/App';
 
-createRoot(document.getElementById('root') as HTMLDivElement).render(
-  <StrictMode>
+const queryClient = new QueryClient();
+
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <QueryClientProvider client={queryClient}>
     <App />
-  </StrictMode>,
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>,
 );

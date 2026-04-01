@@ -1,7 +1,10 @@
 // src/components/App.tsx
 
-import { useEffect, useState } from 'react';
-import Sidebar from './Sidebar';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { fetchArticles } from '../services/articleService';
+import ArticleList from './Articles';
+import SearchForm from './SearchForm';
 
 // export default function App() {
 //   return (
@@ -250,33 +253,33 @@ import Sidebar from './Sidebar';
 
 // src/components/App.tsx
 
-export default function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
-    const savedState = localStorage.getItem('sidebar-state');
+// export default function App() {
+//   const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+//     const savedState = localStorage.getItem('sidebar-state');
 
-    try {
-      return savedState ? JSON.parse(savedState) : false;
-    } catch {
-      return false;
-    }
-  });
+//     try {
+//       return savedState ? JSON.parse(savedState) : false;
+//     } catch {
+//       return false;
+//     }
+//   });
 
-  useEffect(() => {
-    localStorage.setItem('sidebar-state', JSON.stringify(isSidebarOpen));
-  }, [isSidebarOpen]);
-  return (
-    <>
-      <button
-        onClick={() => {
-          setIsSidebarOpen(true);
-        }}
-      >
-        Open Sidebar
-      </button>
-      {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
-    </>
-  );
-}
+//   useEffect(() => {
+//     localStorage.setItem('sidebar-state', JSON.stringify(isSidebarOpen));
+//   }, [isSidebarOpen]);
+//   return (
+//     <>
+//       <button
+//         onClick={() => {
+//           setIsSidebarOpen(true);
+//         }}
+//       >
+//         Open Sidebar
+//       </button>
+//       {isSidebarOpen && <Sidebar onClose={() => setIsSidebarOpen(false)} />}
+//     </>
+//   );
+// }
 
 //   const [person, setPerson] = useState(null);
 //   const [count, setCount] = useState(1);
@@ -301,3 +304,58 @@ export default function App() {
 //       {/* <h1>{person && person.name}</h1> */}
 //       {/* <button onClick={() => setCount(count + 1)}>{count}</button> */}
 // 	  </>
+
+//
+
+import css from './App.module.css';
+
+import { type ComponentType } from 'react';
+import ReactPaginateModule, { type ReactPaginateProps } from 'react-paginate';
+
+type ModuleWithDefault<T> = { default: T };
+
+const ReactPaginate = (
+  ReactPaginateModule as unknown as ModuleWithDefault<
+    ComponentType<ReactPaginateProps>
+  >
+).default;
+
+export default function App() {
+  const [topic, setTopic] = useState('');
+  const [currentPage, SetCurrentPage] = useState(1);
+  const { data, isSuccess } = useQuery({
+    queryKey: ['articles', topic, currentPage],
+    queryFn: () => fetchArticles(topic, currentPage),
+    enabled: topic !== '',
+    placeholderData: keepPreviousData,
+  });
+
+  const handleSearch = (newTopic: string) => {
+    setTopic(newTopic);
+    SetCurrentPage(1);
+  };
+
+  const totalPages = data?.nbPages ?? 0;
+  return (
+    <>
+      <h1>tansTask query</h1>
+
+      <SearchForm onSubmit={handleSearch} />
+      <button onClick={() => SetCurrentPage(currentPage + 1)}>
+        Load More {currentPage}
+      </button>
+      {data && <ArticleList items={data.hits} />}
+      {isSuccess && totalPages > 1 && (
+        <ReactPaginate
+          pageCount={totalPages}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={3}
+          onPageChange={({ selected }) => SetCurrentPage(selected + 1)}
+          containerClassName={css.pagination}
+          activeClassName={css.active}
+          forcePage={currentPage - 1}
+        />
+      )}
+    </>
+  );
+}

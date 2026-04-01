@@ -5,10 +5,11 @@ interface SearchFormProps {
 export default function SearchForm({ onSubmit }: SearchFormProps) {
   const handleSubmit = (formData: FormData) => {
     const topic = formData.get('topic') as string;
+
     if (topic === '') {
-      alert('Please enter search topic!');
-      return;
+      return alert('Please enter search topic!');
     }
+
     onSubmit(topic);
   };
 
